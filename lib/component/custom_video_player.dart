@@ -46,8 +46,23 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
     return AspectRatio(
       aspectRatio: videoPlayerController!.value.aspectRatio,
-      child: VideoPlayer(
-        videoPlayerController!,
+      child: Stack(
+        children: [
+          VideoPlayer(
+            videoPlayerController!,
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: Slider(
+              onChanged: (double val) {},
+              value: 0,
+              min: 0,
+              max: videoPlayerController!.value.duration.inSeconds.toDouble(),
+            ),
+          )
+        ],
       ),
     );
   }
