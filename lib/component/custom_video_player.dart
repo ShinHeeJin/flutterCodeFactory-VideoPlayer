@@ -56,8 +56,14 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
             right: 0,
             left: 0,
             child: Slider(
-              onChanged: (double val) {},
-              value: 0,
+              onChanged: (double val) {
+                videoPlayerController!.seekTo(
+                  Duration(
+                    seconds: val.toInt(),
+                  ),
+                );
+              },
+              value: videoPlayerController!.value.position.inSeconds.toDouble(),
               min: 0,
               max: videoPlayerController!.value.duration.inSeconds.toDouble(),
             ),
