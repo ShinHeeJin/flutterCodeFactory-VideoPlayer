@@ -31,10 +31,21 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     );
 
     await videoPlayerController.initialize();
+    videoPlayerController.addListener(videoPlayerControllerListener);
 
     setState(() {
       this.videoPlayerController = videoPlayerController;
     });
+  }
+
+  void videoPlayerControllerListener() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    videoPlayerController?.removeListener(videoPlayerControllerListener);
+    super.dispose();
   }
 
   @override
