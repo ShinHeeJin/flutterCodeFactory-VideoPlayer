@@ -80,18 +80,33 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               bottom: 0,
               right: 0,
               left: 0,
-              child: Slider(
-                onChanged: (double val) {
-                  videoPlayerController!.seekTo(
-                    Duration(
-                      seconds: val.toInt(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    renderTimeTextFromDuration(
+                      videoPlayerController!.value.position,
                     ),
-                  );
-                },
-                value:
-                    videoPlayerController!.value.position.inSeconds.toDouble(),
-                min: 0,
-                max: videoPlayerController!.value.duration.inSeconds.toDouble(),
+                    Expanded(
+                      child: Slider(
+                        onChanged: (double val) {
+                          videoPlayerController!.seekTo(
+                            Duration(
+                              seconds: val.toInt(),
+                            ),
+                          );
+                        },
+                        value: videoPlayerController!.value.position.inSeconds
+                            .toDouble(),
+                        min: 0,
+                        max: videoPlayerController!.value.duration.inSeconds
+                            .toDouble(),
+                      ),
+                    ),
+                    renderTimeTextFromDuration(
+                        videoPlayerController!.value.duration)
+                  ],
+                ),
               ),
             ),
             if (showControls)
@@ -124,7 +139,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                     ),
                   ],
                 ),
-              )
+              ),
           ],
         ),
       ),
@@ -168,5 +183,14 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     } else {
       videoPlayerController!.play();
     }
+  }
+
+  Widget renderTimeTextFromDuration(Duration duration) {
+    return Text(
+      '${duration.inMinutes.toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}',
+      style: const TextStyle(
+        color: Colors.white,
+      ),
+    );
   }
 }
